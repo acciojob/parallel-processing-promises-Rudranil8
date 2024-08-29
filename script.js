@@ -13,14 +13,22 @@ document.getElementById('download-images-button').addEventListener('click', func
   { url: "https://picsum.photos/id/238/200/300" },
   { url: "https://picsum.photos/id/239/200/300" }];
 
-  let imagePromises = imageUrls.map(url => {
-    return new Promise((resolve, reject) => {
-      let img = new Image();
-      img.src = url;
-      img.onload = () => resolve(img);
-      img.onerror = () => reject(`Failed to load image's URL: ${url}`);
-    });
+  // let imagePromises = imageUrls.map(url => {
+  //   return new Promise((resolve, reject) => {
+  //     let img = new Image();
+  //     img.src = url;
+  //     img.onload = () => resolve(img);
+  //     img.onerror = () => reject(`Failed to load image's URL: ${url}`);
+  //   });
+  // });
+	let imagePromises = imageUrls.map(image => {
+  return new Promise((resolve, reject) => {
+    let img = new Image();
+    img.src = image.url;
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(`Failed to load image's URL: ${image.url}`);
   });
+});
 
   Promise.all(imagePromises)
     .then(images => {
@@ -29,23 +37,3 @@ document.getElementById('download-images-button').addEventListener('click', func
     })
     .catch(error => console.error(error));
 });
-
-// btn.addEventListener("click", () => {
-//     let promises = images.map(image => loadImage(image.url));
-//     Promise.all(promises)
-//         .then(imgs => {
-//             imgs.forEach(img => {
-//                 output.appendChild(img);
-//             });
-//         })
-//         .catch(error => console.error(error));
-// });
-
-// function loadImage(url) {
-//     return new Promise((resolve, reject) => {
-//         let img = new Image();
-//         img.src = url;
-//         img.onload = () => resolve(img);
-//         img.onerror = () => reject(new Error(`Failed to load image's URL: ${url}`));
-//     });
-// }
